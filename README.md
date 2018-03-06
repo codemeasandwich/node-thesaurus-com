@@ -20,20 +20,23 @@ $ npm install --save thesaurus-synonyms
 ## Usage
 
 ```javascript
-var search = require('thesaurus-synonyms');
+var thesaurus = require('thesaurus-synonyms');
 
-search('never').then(console.log);
+thesaurus.search('never').then(console.log);
+```
 
+### output
 
-//   [ 'at no time',
-//     'don\'t hold your breath',
-//     'forget it',
-//     'nevermore',
-//     'no way',
-//     'not at all',
-//     'not ever',
-//     'not in any way',
-//     'not in the least',
-//     'not on your life',
-//     'not under any condition' ]
+```javascript
+   [ 'at no time',
+     'don\'t hold your breath',
+     'forget it',
+     'nevermore',
+     'no way',
+     'not at all',
+     'not ever',
+     'not in any way',
+     'not in the least',
+     'not on your life',
+     'not under any condition' ]
 ```
