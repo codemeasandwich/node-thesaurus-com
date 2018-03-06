@@ -1,34 +1,40 @@
-/*global $:true */
 
-var request = require('sync-request');
-var cheerio = require('cheerio');
+const http = require('http');
+var cheerio = require("cheerio")
 
-function search(query) {
+function search(query) { 
+
+ const wordsPromise = new Promise((resolve, reject) => {
+ 
     var url = 'http://www.thesaurus.com/browse/' + encodeURIComponent(query);
-    var req = request('GET', url);
-
-    if (req.statusCode !== 200) {
-        return []//{synonyms: [], antonyms: []};
-    }
-
-    $ = cheerio.load(req.getBody(), { ignoreWhitespace: true });
-
-    var synonyms = $('div.relevancy-list ul li a span.text');
-    synonyms = synonyms.map(function() {
-        return $(this).text();
-    }).get()//.sort();
     
-    return synonyms
-/*
-    var antonyms = $('div.list-holder ul li a span.text');
-    antonyms = antonyms.map(function() {
-        return $(this).text();
-    }).get().sort();
+    http.get(url, (resp) => {
+      let data = '';
 
-    return {
-        synonyms: synonyms,
-        antonyms: antonyms
-    };*/
-}
+      // A chunk of data has been recieved.
+      resp.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      // The whole response has been received. Print out the result.
+      resp.on('end', () => {
+
+      $ = cheerio.load(data, { ignoreWhitespace: true });
+
+        var synonyms = $('div.relevancy-list ul li a span.text');
+            synonyms = synonyms.map(function() {
+                return $(this).text();
+            }).get()//.sort();
+        
+        resolve(synonyms);
+      }); // END on end
+
+    }).on("error", reject);
+
+}) // END Promise
+
+return wordsPromise
+
+} // END search
 
 exports.search = search;
