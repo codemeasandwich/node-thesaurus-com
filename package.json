@@ -1,14 +1,10 @@
 {
-  "name": "thesaurus-com",
-  "version": "1.1.3",
-  "description": "Lookup synonyms and antonyms from thesaurus.com.",
+  "name": "thesaurus-synonyms",
+  "version": "2.0.0",
+  "description": "Lookup synonyms from thesaurus.com.",
   "main": "index.js",
-  "bin": {
-    "tcom": "./tcom.js"
-  },
   "dependencies": {
     "cheerio": "^0.22.0",
-    "sync-request": "^3.0.1"
   },
   "devDependencies": {
     "eslint": "^3.8.1",
@@ -19,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mhinz/node-thesaurus-com.git"
+    "url": "git+https://github.com/codemeasandwich/thesaurus-synonyms.git"
   },
   "keywords": [
     "thesaurus",
@@ -29,10 +25,9 @@
     "antonym",
     "word"
   ],
-  "author": "Marco Hinz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mhinz/node-thesaurus-com/issues"
+    "url": "https://github.com/codemeasandwich/thesaurus-synonyms/issues"
   },
-  "homepage": "https://github.com/mhinz/node-thesaurus-com"
+  "homepage": "https://github.com/codemeasandwich/thesaurus-synonyms-com"
 }
