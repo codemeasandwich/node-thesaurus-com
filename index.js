@@ -1,12 +1,18 @@
-
+"use strict";
 const http = require('http');
-var cheerio = require("cheerio")
+const cheerio = require("cheerio")
+
+const cachedResults = {}
 
 function search(query) { 
+ 
+ if(cachedResults[query]){
+ return cachedResults[query];
+ }
 
  const wordsPromise = new Promise((resolve, reject) => {
  
-    var url = 'http://www.thesaurus.com/browse/' + encodeURIComponent(query);
+    const url = 'http://www.thesaurus.com/browse/' + encodeURIComponent(query);
     
     http.get(url, (resp) => {
       let data = '';
@@ -21,7 +27,7 @@ function search(query) {
 
       $ = cheerio.load(data, { ignoreWhitespace: true });
 
-        var synonyms = $('div.relevancy-list ul li a span.text');
+        let synonyms = $('div.relevancy-list ul li a span.text');
             synonyms = synonyms.map(function() {
                 return $(this).text();
             }).get()//.sort();
@@ -29,11 +35,15 @@ function search(query) {
         resolve(synonyms);
       }); // END on end
 
-    }).on("error", reject);
+    }).on("error", err=> {
+      // removed so can retry
+     delete cachedResults[query]
+     reject(err);
+    });
 
 }) // END Promise
 
-return wordsPromise
+return cachedResults[query] = wordsPromise 
 
 } // END search
 
