@@ -27,12 +27,17 @@ function search(query) {
 
       $ = cheerio.load(data, { ignoreWhitespace: true });
 
-        let synonyms = $('div.relevancy-list ul li a span.text');
-            synonyms = synonyms.map(function() {
-                return $(this).text();
-            }).get()//.sort();
+        let synonyms = [];
+	let mostRelevantVal = 1
+        const relevants = $('div.relevancy-list ul li a').map((i,elem)=>{
+           const relevantVal = +JSON.parse(elem.attribs["data-category"]).name.split("-").pop()
+           mostRelevantVal = relevantVal > mostRelevantVal ? relevantVal : mostRelevantVal;
+           return relevantVal
+        })
+    
+        $('div.relevancy-list ul li a span.text').map((i,elem)=>synonyms.push({word:elem.children[0].data, relevant:relevants[i]}))
         
-        resolve(synonyms);
+       resolve(synonyms.filter(word => word.relevant === mostRelevantVal).map(word=>word.word).sort());
       }); // END on end
 
     }).on("error", err=> {
