@@ -8,7 +8,7 @@ function search(query) {
     var req = request('GET', url);
 
     if (req.statusCode !== 200) {
-        return {synonyms: [], antonyms: []};
+        return []//{synonyms: [], antonyms: []};
     }
 
     $ = cheerio.load(req.getBody(), { ignoreWhitespace: true });
@@ -16,8 +16,10 @@ function search(query) {
     var synonyms = $('div.relevancy-list ul li a span.text');
     synonyms = synonyms.map(function() {
         return $(this).text();
-    }).get().sort();
-
+    }).get()//.sort();
+    
+    return synonyms
+/*
     var antonyms = $('div.list-holder ul li a span.text');
     antonyms = antonyms.map(function() {
         return $(this).text();
@@ -26,7 +28,7 @@ function search(query) {
     return {
         synonyms: synonyms,
         antonyms: antonyms
-    };
+    };*/
 }
 
 exports.search = search;
