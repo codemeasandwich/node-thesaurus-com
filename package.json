@@ -1,7 +1,7 @@
 {
   "name": "thesaurus-synonyms",
-  "version": "2.0.1",
-  "description": "Lookup synonyms from thesaurus.com.",
+  "version": "2.1.0",
+  "description": "Lookup similar words from thesaurus.com and cortical.io",
   "main": "index.js",
   "dependencies": {
     "cheerio": "^0.22.0"
@@ -29,5 +29,5 @@
   "bugs": {
     "url": "https://github.com/codemeasandwich/thesaurus-synonyms/issues"
   },
-  "homepage": "https://github.com/codemeasandwich/thesaurus-synonyms-com"
+  "homepage": "https://github.com/codemeasandwich/thesaurus-synonyms"
 }
