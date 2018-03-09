@@ -3,12 +3,12 @@
 var http = require('http');
 const cheerio = require("cheerio")
 
-const cachedResults = {}
+const cachedSearchResults = {}
 
 function search(query) {
 
- if(cachedResults[query]){
- return cachedResults[query];
+ if(cachedSearchResults[query]){
+ return cachedSearchResults[query];
  }
 
  const wordsPromise = new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ function search(query) {
      const $ = cheerio.load(data, { ignoreWhitespace: true });
 
         let synonyms = [];
-	let mostRelevantVal = 1
+        let mostRelevantVal = 1
         const relevants = $('div.relevancy-list ul li a').map((i,elem)=>{
            const relevantVal = +JSON.parse(elem.attribs["data-category"]).name.split("-").pop()
            mostRelevantVal = relevantVal > mostRelevantVal ? relevantVal : mostRelevantVal;
@@ -49,7 +49,7 @@ function search(query) {
 
 }) // END Promise
 
-return cachedResults[query] = wordsPromise
+return cachedSearchResults[query] = wordsPromise
 
 } // END search
 
@@ -88,8 +88,18 @@ function read(text,retina_type){
   })
 }
 
+const cachedSimilarResults = {}
+
 function similar(txt,threshold=0,retinaName="synonymous"){
-  return read(txt,retinaName).then(result=>{
+  
+   const query = txt + threshold + retinaName
+  
+ if(cachedSimilarResults[query]){
+ return cachedSimilarResults[query];
+ }
+ 
+  
+  return cachedSimilarResults[query] = read(txt,retinaName).then(result=>{
       if (!Array.isArray(result)){
         return [] // result.error_description
       }
