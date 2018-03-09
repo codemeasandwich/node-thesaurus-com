@@ -1,6 +1,6 @@
 
 "use strict";
-const http = require('http');
+var http = require('http');
 const cheerio = require("cheerio")
 
 const cachedResults = {}
@@ -70,7 +70,7 @@ function read(text,retina_type){
 
     const myoptions = Object.assign({},options)
 
-    myoptions.path += retina_type +"&term="+ text+"&start_index=0&max_results=15&get_fingerprint=false"
+    myoptions.path += retina_type +"&term=" + encodeURI(text) + "&start_index=0&max_results=15&get_fingerprint=false"
 
     var req = http.request(myoptions, function(res) {
 
@@ -90,11 +90,14 @@ function read(text,retina_type){
 
 function similar(txt,threshold=0,retinaName="synonymous"){
   return read(txt,retinaName).then(result=>{
-    return result.filter(({term,score})=>term !== txt && score >= threshold)
-                    //.map(({term,score})=>({term,score})))
-                      .map(({term})=>term)
-        //    return associative.concat(synonymous).filter((v, i, a) => a.indexOf(v) === i)
-          })
+      if (!Array.isArray(result)){
+        return [] // result.error_description
+      }
+      
+      return result.filter(({term,score})=>term !== txt && score >= threshold)
+                   .map(({term})=>term)
+
+    })
 }
 
 exports.similar = similar
