@@ -55,9 +55,6 @@ return cachedSearchResults[query] = wordsPromise
 
 exports.search = search;
 
-
-
-var http = require("http");
 var options = {
   hostname: 'api.cortical.io',
   port: 80,

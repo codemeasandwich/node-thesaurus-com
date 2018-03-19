@@ -1,6 +1,6 @@
 {
   "name": "thesaurus-synonyms",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Lookup similar words from thesaurus.com and cortical.io",
   "main": "index.js",
   "dependencies": {
